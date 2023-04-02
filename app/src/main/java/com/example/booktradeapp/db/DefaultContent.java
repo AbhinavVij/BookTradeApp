@@ -10,6 +10,6 @@ public class DefaultContent {
 
    // public static byte[][] IMAGE = {};
 
-    public static String[] DATE_MODIFIED = {};
+    public static String[] DATE_MODIFIED = {"000000000"};
 
 }
