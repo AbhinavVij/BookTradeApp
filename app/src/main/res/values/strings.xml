@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">BookTradeApp</string>
+        <!-- Preference Titles -->
+        <string name="messages_header">Messages</string>
+        <string name="sync_header">Sync</string>
+
+        <!-- Messages Preferences -->
+        <string name="signature_title">Your signature</string>
+        <string name="reply_title">Default reply action</string>
+
+        <!-- Sync Preferences -->
+        <string name="sync_title">Sync email periodically</string>
+        <string name="attachment_title">Download incoming attachments</string>
+        <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+        <string name="attachment_summary_off">Only download attachments when manually requested</string>
+        <string name="add_title">Title</string>
+        <string name="add_author">Author</string>
+        <string name="add_condition">Condition of Book (1-5)</string>
+        <string name="add_publication">Publication</string>
+        <string name="add_image">Image of Book</string>
+        <string name="txtEditImage">Capture Book Image</string>
+        <string name="menu_cancel">Cancel</string>
+    <string name="menu_add">add</string>
+    <string name="logout">logout</string>
+    <string name="setting">setting</string>
+
+</resources>
