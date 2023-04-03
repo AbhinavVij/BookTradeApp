@@ -9,12 +9,12 @@ import java.util.concurrent.TimeUnit;
 @Entity(tableName="books")
 public class Books {
 
-    public Books(int id, String title, String publication, String author, String condition,/* byte[] image,*/ String date_modified) {
+    public Books(int id, String title, String author, String condition, String publication, /* byte[] image,*/ String date_modified) {
         this.id = id;
         this.title = title;
-        this.publication = publication;
         this.author = author;
         this.condition = condition;
+        this.publication = publication;
         //this.image = image;
         this.date_modified = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
     }
@@ -26,14 +26,14 @@ public class Books {
     @ColumnInfo(name = "title")
     public String title;
 
-    @ColumnInfo(name = "publication")
-    public String publication;
-
     @ColumnInfo(name = "author")
     public String author;
 
     @ColumnInfo(name = "condition")
     public String condition;
+
+    @ColumnInfo(name = "publication")
+    public String publication;
 
 //    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
 //    public byte[] image;

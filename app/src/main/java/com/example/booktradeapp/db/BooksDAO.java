@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface BooksDAO {
 
-    @Query("SELECT * FROM books ORDER BY date_modified")
+    @Query("SELECT * FROM books ORDER BY date_modified desc")
     LiveData<List<Books>> getAll();
 
     @Query("SELECT * FROM books WHERE rowid = :bookId")

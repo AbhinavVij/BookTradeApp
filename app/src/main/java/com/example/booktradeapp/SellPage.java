@@ -79,8 +79,9 @@ public class SellPage extends AppCompatActivity {
             args.putInt("books_id", books.id);
             args.putString("title", books.title);
             args.putString("author", books.author);
-            args.putString("publication", books.publication);
             args.putString("condition", books.condition);
+            args.putString("publication", books.publication);
+
 
             DisplaySetupDialog setupDialog = new DisplaySetupDialog();
             setupDialog.setArguments(args);
@@ -107,8 +108,9 @@ public class SellPage extends AppCompatActivity {
                 super(itemView);
                 titleView = itemView.findViewById(R.id.textView6);
                 authorView = itemView.findViewById(R.id.textView7);
-                publicationView = itemView.findViewById(R.id.textView8);
                 conditionView = itemView.findViewById(R.id.textView9);
+                publicationView = itemView.findViewById(R.id.textView8);
+
 
 
                 itemView.setOnLongClickListener(view -> {
@@ -121,7 +123,7 @@ public class SellPage extends AppCompatActivity {
                     return true;
                 });
 
-//                itemView.setOnClickListener(view -> displaySetup(books.id));
+                itemView.setOnClickListener(view -> displaySetup(books.id));
 //
 //                likedView.setOnClickListener(view -> {
 //                    joke.liked = !joke.liked;
@@ -149,6 +151,10 @@ public class SellPage extends AppCompatActivity {
                 Books current = books.get(position);
                 holder.books = current;
                 holder.titleView.setText(current.title);
+                holder.authorView.setText(current.author);
+                holder.conditionView.setText(current.condition);
+                holder.publicationView.setText(current.publication);
+
             } else {
                 // Covers the case of data not being ready yet.
                 holder.titleView.setText("...intializing...");
@@ -176,15 +182,19 @@ public class SellPage extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             books_id = getArguments().getInt("books_id");
-//            final String title = getArguments().getString("title");
-//            final String setup = getArguments().getString("setup");
+            final String title = getArguments().getString("title");
+            final String author = getArguments().getString("author");
+            final String condition = getArguments().getString("condition");
+            final String publication = getArguments().getString("publication");
 
-//            builder.setTitle(title)
-//                    .setMessage(setup)
-//                    .setPositiveButton("Punchline",
-//                            (dialog, id) -> ((MainActivity) getActivity()).displayPunchline(joke_id))
-//                    .setNegativeButton("Cancel",
-//                            (dialog, id) -> {});
+            builder.setTitle(title)
+                    .setMessage("Author of Book:" + author + "\nCondition of Book:" + condition + "\nBook published by :"+ publication)
+//                    .setMessage("Condition of Book:" + condition)
+//                    .setMessage("Book published by :"+ publication)
+                    .setPositiveButton("Add to Cart",
+                            (dialog, id) -> {})
+                    .setNegativeButton("Cancel",
+                            (dialog, id) -> {});
             return builder.create();
         }
 

@@ -50,10 +50,10 @@ public class AddActivity extends AppCompatActivity {
         if (book_id == -1) {
             menu.getItem(1).setIcon(R.drawable.ic_cancel);
             menu.getItem(1).setTitle(R.string.menu_cancel);
-            setTitle("Add joke");
+            setTitle("Add Book Details");
         }
         else {
-            setTitle("Edit joke");
+            setTitle("Edit Book Details");
         }
         return true;
     }
