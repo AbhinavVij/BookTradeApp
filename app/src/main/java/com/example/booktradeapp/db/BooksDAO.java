@@ -24,8 +24,8 @@ public interface BooksDAO {
     @Update
     void update(Books... books);
 
-    @Delete
-    void delete(Books... user);
+//    @Delete
+//    void delete(Books... user);
 
     @Query("DELETE FROM books WHERE rowid = :bookId")
     void delete(int bookId);

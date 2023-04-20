@@ -111,14 +111,14 @@ public class AddActivity extends AppCompatActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-            builder.setTitle("Delete the joke?")
+            builder.setTitle("Delete this Book ?")
                     .setMessage("You will not be able to undo the deletion!")
                     .setPositiveButton("Delete",
                             (dialog,id) -> {
                                 ((AddActivity) getActivity()).deleteRecord();
                                 getActivity().finish();
                             })
-                    .setNegativeButton("Return to joke list",
+                    .setNegativeButton("Return to Book list",
                             (dialog, id) -> getActivity().finish());
             return builder.create();
         }

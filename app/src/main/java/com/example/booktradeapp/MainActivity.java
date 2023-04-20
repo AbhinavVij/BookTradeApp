@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar mytoolbar=findViewById(R.id.toolbar);
         setSupportActionBar(mytoolbar);
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
     }
     public void onSellButtonClicked(View view)
     {
@@ -41,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
             case R.id.setting:
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
 
                 return true;
             default:
