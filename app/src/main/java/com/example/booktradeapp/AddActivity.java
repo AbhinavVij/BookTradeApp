@@ -19,8 +19,18 @@ import java.util.concurrent.TimeUnit;
 public class AddActivity extends AppCompatActivity {
     private int book_id;
 
+    private SharedPref sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPreferences = new SharedPref(this);
+
+        //load theme preference
+        if (sharedPreferences.loadNightModeState()) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.LightTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_book_sell);
         setSupportActionBar(findViewById(R.id.my_toolbar));

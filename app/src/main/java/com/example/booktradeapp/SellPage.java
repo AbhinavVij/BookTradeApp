@@ -32,8 +32,18 @@ public class SellPage extends AppCompatActivity {
 
     private BooksViewModel booksViewModel;
 
+    private SharedPref sharedPreferences;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        sharedPreferences = new SharedPref(this);
+
+        //load theme preference
+        if (sharedPreferences.loadNightModeState()) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.LightTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sell_page);
         Toolbar mytoolbar = findViewById(R.id.toolbar);
