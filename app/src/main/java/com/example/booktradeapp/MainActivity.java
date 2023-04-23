@@ -12,14 +12,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity {
 
 
     private SharedPref sharedPreferences;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPreferences = new SharedPref(this);
+mAuth=FirebaseAuth.getInstance();
 
+user=mAuth.getCurrentUser();
+if(user==null)
+{
+    Intent intent =new Intent(getApplicationContext(),LoginActivity.class);
+    startActivity(intent);
+    finish();
+}
         //load theme preference
         if (sharedPreferences.loadNightModeState()) {
             setTheme(R.style.DarkTheme);
@@ -68,12 +81,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent =new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+                finish();
 
                 return true;
             case R.id.setting:
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                Intent it = new Intent(this, SettingsActivity.class);
+                startActivity(it);
 
                 return true;
             default:
