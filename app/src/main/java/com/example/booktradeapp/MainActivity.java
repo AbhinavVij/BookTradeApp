@@ -66,6 +66,14 @@ if(user==null)
 
     }
 
+    public void onBuyButtonClicked(View view)
+    {
+        Intent intent2=new Intent(MainActivity.this,BuyPage.class);
+        startActivity(intent2);
+
+
+    }
+
 
 
     @Override

@@ -9,6 +9,10 @@ import java.util.concurrent.TimeUnit;
 @Entity(tableName="books")
 public class Books {
 
+    public Books()
+    {
+
+    }
     public Books(int id, String title, String author, String condition, String publication, /* byte[] image,*/ String date_modified) {
         this.id = id;
         this.title = title;
@@ -17,6 +21,30 @@ public class Books {
         this.publication = publication;
         //this.image = image;
         this.date_modified = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public String getPublication() {
+        return publication;
+    }
+
+    public String getDate_modified() {
+        return date_modified;
     }
 
     @PrimaryKey(autoGenerate = true)

@@ -38,6 +38,7 @@
         android:layout_marginTop="30dp"
         android:background="#384D59"
         android:text="BUY"
+        android:onClick="onBuyButtonClicked"
         android:gravity="center"
         android:textSize="25sp"
         android:textColor="@color/white"

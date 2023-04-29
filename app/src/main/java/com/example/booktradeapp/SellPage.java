@@ -25,6 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.booktradeapp.db.Books;
 import com.example.booktradeapp.db.BooksDatabase;
 import com.example.booktradeapp.db.BooksViewModel;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -33,6 +35,8 @@ public class SellPage extends AppCompatActivity {
     private BooksViewModel booksViewModel;
 
     private SharedPref sharedPreferences;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         sharedPreferences = new SharedPref(this);
@@ -59,6 +63,7 @@ public class SellPage extends AppCompatActivity {
         booksViewModel.getAllBooks().observe(this, adapter::setBooks);
 
 
+
     }
 
     @Override
@@ -82,6 +87,7 @@ public class SellPage extends AppCompatActivity {
 
         return true;
     }
+
 
     public void displaySetup(int id) {
         BooksDatabase.getBooks(id, books -> {
@@ -128,6 +134,7 @@ public class SellPage extends AppCompatActivity {
                     Intent intent = new Intent(SellPage.this, AddActivity.class);
                     // Note getItemId will return the database identifier
                     intent.putExtra("book_id", books.id);
+                    intent.putExtra("timestamp",books.date_modified);
                     // Note that we are calling a method of the MainActivity object
                     startActivity(intent);
                     return true;

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,13 +14,31 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.booktradeapp.db.Books;
 import com.example.booktradeapp.db.BooksDatabase;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.TimeUnit;
 
 public class AddActivity extends AppCompatActivity {
     private int book_id;
+    private String timestamp;
 
     private SharedPref sharedPreferences;
+    DatabaseReference databaseUser;
+
+
+    EditText title;
+    EditText publication;
+    EditText authorb;
+    EditText condition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPreferences = new SharedPref(this);
@@ -36,7 +55,13 @@ public class AddActivity extends AppCompatActivity {
         setSupportActionBar(findViewById(R.id.my_toolbar));
 
         book_id = getIntent().getIntExtra("book_id", -1);
+        timestamp=getIntent().getStringExtra("timestamp");
+        title=(EditText) findViewById(R.id.txtEditTitle);
+        authorb=(EditText) findViewById(R.id.txtEditAuthor);
+        publication= (EditText) findViewById(R.id.txtEditPublication);
+        condition= (EditText) findViewById(R.id.txtEditCondition);
 
+        databaseUser= FirebaseDatabase.getInstance().getReference();
         // Note: that we do not want to lose the state if the activity is being
         // recreated
         if (savedInstanceState == null) {
@@ -88,6 +113,53 @@ public class AddActivity extends AppCompatActivity {
         }
     }
 
+    private void UpdateData(Books books)
+    {
+
+
+        databaseUser.child("books").child(timestamp).removeValue();
+
+        databaseUser.child("books").child(books.date_modified).setValue(books).
+                addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful())
+                        {
+                            Toast.makeText(getApplicationContext(),"userdetail updated",Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                });
+
+
+
+
+    }
+    private void InsertData()
+    {
+        String title1=title.getText().toString();
+        String author1=authorb.getText().toString();
+        String publication1=publication.getText().toString();
+        String condition1=condition.getText().toString();
+        //String id = databaseUser.push().;
+
+        Books book=new Books(book_id == -1?0:book_id,title1,author1,condition1,publication1,
+                String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())));
+
+        databaseUser.child("books").child(book.date_modified).setValue(book).
+                addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful())
+                {
+                    Toast.makeText(getApplicationContext(),"userdetail inserted",Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+    }
     private void updateDatabase() {
         Books books = new Books(book_id == -1?0:book_id,
                 ((EditText) findViewById(R.id.txtEditTitle)).getText().toString(),
@@ -98,14 +170,42 @@ public class AddActivity extends AppCompatActivity {
                 String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())));
         if (book_id == -1) {
             BooksDatabase.insert(books);
+            InsertData();
         } else {
+
             BooksDatabase.update(books);
+            UpdateData(books);
         }
         finish(); // Quit activity
     }
 
     public void deleteRecord() {
         BooksDatabase.delete(book_id);
+        deletefirebase(timestamp);
+
+    }
+    private void deletefirebase(String timestamp) {
+        // creating a variable for our Database
+        // Reference for Firebase.
+        DatabaseReference dbref= FirebaseDatabase.getInstance().getReference().child("books");
+        // we are use add listerner
+        // for event listener method
+        // which is called with query.
+        Query query=dbref.orderByChild("date_modified").equalTo(timestamp);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // remove the value at reference
+                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                    appleSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 //    @Override
@@ -113,6 +213,7 @@ public class AddActivity extends AppCompatActivity {
 //        super.onSaveInstanceState(outState);
 //        outState.putBoolean("liked", liked);
 //    }
+
 
     public static class ConfirmDeleteDialog extends DialogFragment {
 
@@ -127,6 +228,7 @@ public class AddActivity extends AppCompatActivity {
                             (dialog,id) -> {
                                 ((AddActivity) getActivity()).deleteRecord();
                                 getActivity().finish();
+
                             })
                     .setNegativeButton("Return to Book list",
                             (dialog, id) -> getActivity().finish());
