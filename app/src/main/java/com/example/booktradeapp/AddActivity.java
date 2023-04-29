@@ -39,6 +39,8 @@ public class AddActivity extends AppCompatActivity {
     EditText authorb;
     EditText condition;
 
+    EditText email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPreferences = new SharedPref(this);
@@ -58,8 +60,9 @@ public class AddActivity extends AppCompatActivity {
         timestamp=getIntent().getStringExtra("timestamp");
         title=(EditText) findViewById(R.id.txtEditTitle);
         authorb=(EditText) findViewById(R.id.txtEditAuthor);
-        publication= (EditText) findViewById(R.id.txtEditPublication);
         condition= (EditText) findViewById(R.id.txtEditCondition);
+        publication= (EditText) findViewById(R.id.txtEditPublication);
+        email= (EditText) findViewById(R.id.txtEditImage);
 
         databaseUser= FirebaseDatabase.getInstance().getReference();
         // Note: that we do not want to lose the state if the activity is being
@@ -69,9 +72,9 @@ public class AddActivity extends AppCompatActivity {
                 BooksDatabase.getBooks(book_id, books -> {
                     ((EditText) findViewById(R.id.txtEditTitle)).setText(books.title);
                     ((EditText) findViewById(R.id.txtEditAuthor)).setText(books.author);
-                    ((EditText) findViewById(R.id.txtEditPublication)).setText(books.publication);
-                   // ((EditText) findViewById(R.id.txtEditImage)).setText(Books.image);
                     ((EditText) findViewById(R.id.txtEditCondition)).setText(books.condition);
+                    ((EditText) findViewById(R.id.txtEditPublication)).setText(books.publication);
+                    ((EditText) findViewById(R.id.txtEditImage)).setText(books.email);
 
                 });
             }
@@ -140,11 +143,12 @@ public class AddActivity extends AppCompatActivity {
     {
         String title1=title.getText().toString();
         String author1=authorb.getText().toString();
-        String publication1=publication.getText().toString();
         String condition1=condition.getText().toString();
+        String publication1=publication.getText().toString();
+        String email1 = email.getText().toString();
         //String id = databaseUser.push().;
 
-        Books book=new Books(book_id == -1?0:book_id,title1,author1,condition1,publication1,
+        Books book=new Books(book_id == -1?0:book_id,title1,author1,condition1,publication1,email1,
                 String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())));
 
         databaseUser.child("books").child(book.date_modified).setValue(book).
@@ -153,7 +157,7 @@ public class AddActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful())
                 {
-                    Toast.makeText(getApplicationContext(),"userdetail inserted",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Book Details Inserted",Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -165,8 +169,8 @@ public class AddActivity extends AppCompatActivity {
                 ((EditText) findViewById(R.id.txtEditTitle)).getText().toString(),
                 ((EditText) findViewById(R.id.txtEditAuthor)).getText().toString(),
                 ((EditText) findViewById(R.id.txtEditCondition)).getText().toString(),
-               // ((EditText) findViewById(R.id.txtEditImage)).getText().toString(),
                 ((EditText) findViewById(R.id.txtEditPublication)).getText().toString(),
+                ((EditText) findViewById(R.id.txtEditImage)).getText().toString(),
                 String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())));
         if (book_id == -1) {
             BooksDatabase.insert(books);

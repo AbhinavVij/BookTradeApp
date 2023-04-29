@@ -52,6 +52,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
                         DefaultContent.PUBLICATION[i],
                         DefaultContent.AUTHOR[i],
                         DefaultContent.CONDITION[i],
+                        DefaultContent.EMAIL[i],
                         //DefaultContent.IMAGE[i][0],
                         DefaultContent.DATE_MODIFIED[i]));
             }

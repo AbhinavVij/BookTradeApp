@@ -18,7 +18,7 @@
         <string name="add_author">Author</string>
         <string name="add_condition">Condition of Book (1-5)</string>
         <string name="add_publication">Publication</string>
-        <string name="add_image">Image of Book</string>
+        <string name="email">Email of Seller</string>
         <string name="txtEditImage">Capture Book Image</string>
         <string name="menu_cancel">Cancel</string>
     <string name="menu_add">add</string>

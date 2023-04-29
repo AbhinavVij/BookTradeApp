@@ -4,7 +4,7 @@
         android:key="dark"
         android:title="Dark Mode"
         android:summary="To enable Dark Mode"
-        android:defaultValue="true" />
+        android:defaultValue="false" />
     <CheckBoxPreference
         android:key="Seller_Page"
         android:title="Sell Page as Home Screen"

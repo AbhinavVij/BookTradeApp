@@ -253,10 +253,10 @@ public class BuyPage extends AppCompatActivity {
                         TextView p=v.findViewById(R.id.textView8);
                         TextView c=v.findViewById(R.id.textView9);
 
-
+                        // Todo
                         displaySetup(new Books(1,t.getText().toString(),a.getText().toString(),
                                 c.getText().toString()
-                        ,p.getText().toString(),""));
+                        ,p.getText().toString(),"",""));
                     }
                 });
 

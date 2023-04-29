@@ -13,12 +13,13 @@ public class Books {
     {
 
     }
-    public Books(int id, String title, String author, String condition, String publication, /* byte[] image,*/ String date_modified) {
+    public Books(int id, String title, String author, String condition, String publication, String email, /* byte[] image,*/ String date_modified) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.condition = condition;
         this.publication = publication;
+        this.email = email;
         //this.image = image;
         this.date_modified = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
     }
@@ -43,6 +44,10 @@ public class Books {
         return publication;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public String getDate_modified() {
         return date_modified;
     }
@@ -62,6 +67,9 @@ public class Books {
 
     @ColumnInfo(name = "publication")
     public String publication;
+
+    @ColumnInfo(name = "email")
+    public String email;
 
 //    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
 //    public byte[] image;

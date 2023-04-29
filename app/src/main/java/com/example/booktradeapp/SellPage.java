@@ -208,9 +208,9 @@ public class SellPage extends AppCompatActivity {
                     .setMessage("Author of Book:" + author + "\nCondition of Book:" + condition + "\nBook published by :"+ publication)
 //                    .setMessage("Condition of Book:" + condition)
 //                    .setMessage("Book published by :"+ publication)
-                    .setPositiveButton("Add to Cart",
-                            (dialog, id) -> {})
-                    .setNegativeButton("Cancel",
+//                    .setNegativeButton("Delete",
+//                            (dialog, id) -> {confirmDialog.show(getParentFragmentManager(), "deletionConfirmation");})
+                    .setPositiveButton("Cancel",
                             (dialog, id) -> {});
             return builder.create();
         }
