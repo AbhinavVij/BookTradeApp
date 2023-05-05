@@ -14,17 +14,17 @@ import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
 
-//    private SharedPref sharedPreferences;
+    private SharedPref sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        sharedPreferences = new SharedPref(this);
-//
-//        //load theme preference
-//        if (sharedPreferences.loadNightModeState()) {
-//            setTheme(R.style.DarkTheme);
-//        } else {
-//            setTheme(R.style.LightTheme);
-//        }
+        sharedPreferences = new SharedPref(this);
+
+        //load theme preference
+        if (sharedPreferences.loadNightModeState()) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.LightTheme);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
@@ -40,7 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         @Override
-        public void onCreate(Bundle savedInstanceState) {
+        public void onCreate(Bundle savedInstanceState){
             sharedPreferences = new SharedPref(getActivity().getApplicationContext());
             super.onCreate(savedInstanceState);
             // Load the preferences from an XML resource

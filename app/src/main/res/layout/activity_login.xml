@@ -38,7 +38,7 @@
         android:ems="10"
         android:textColor="#E6E3E3"
         android:textColorHint="#E6E3E3"
-        android:hint="Entern email address"
+        android:hint="Enter email address"
         android:inputType="textEmailAddress"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="@id/textView2"

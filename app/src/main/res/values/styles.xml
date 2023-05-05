@@ -3,16 +3,19 @@
     <!-- Base application theme. -->
     <style name="DarkTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Dark theme -->
-        <item name="colorPrimary">@color/darkColorPrimary</item>
-        <item name="colorPrimaryDark">@color/darkColorPrimaryDark</item>
+        <item name="colorPrimary">#A9A9A9</item>
+        <item name="colorPrimaryDark">@android:color/white</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="background">@color/darkCardBackground</item>
+        <item name="textColorSearchUrl">@color/dialogDateColor</item>
+        <item name="textAppearanceBody1">@color/white</item>
+<!--        <item name="dialogDateColor">@color/dialogDateColor</item>-->
 <!--        <item name="fontFamily">@font/roboto</item>-->
 <!--        <item name="listBackground">@color/darkListBackground</item>-->
 <!--        <item name="cardBackground">@color/darkCardBackground</item>-->
-<!--        <item name="textColor">@color/darkCardTitle</item>-->
+
 <!--        <item name="actionBarBackgroundColor">@color/darkColorPrimary</item>-->
-<!--        <item name="actionBarTextColor">@color/darkCardTitle</item>-->
+
 <!--        <item name="dialogTextColor">@color/darkDialogTitle</item>-->
 <!--        <item name="dialogDateColor">@color/dialogDateColor</item>-->
 <!--        <item name="listEmptyTextColor">@color/darkListEmptyTextColor</item>-->
@@ -27,7 +30,14 @@
         <item name="colorPrimary">@color/lightColorPrimary</item>
         <item name="colorPrimaryDark">@color/lightColorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="background">@color/dialogDateColor</item>
+        <item name="textColorSearchUrl">@color/dialogDateColor</item>
+        <item name="background">@android:color/white</item>
+        <item name="textAppearanceBody1">@color/darkColorPrimary</item>
+
+        <!--        Our app's background colour when light mode is on == white-->
+<!--        <item name="text_color">#000</item>-->
+        <!--        Text color is black-->
+<!--        <item name="button_color">@color/colorAccent</item>-->
 <!--        <item name="fontFamily">@font/roboto</item>-->
 <!--        <item name="listBackground">@color/lightListBackground</item>-->
 <!--        <item name="cardBackground">@color/lightCardBackground</item>-->

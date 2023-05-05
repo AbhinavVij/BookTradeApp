@@ -1,8 +1,12 @@
 package com.example.booktradeapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -89,11 +93,8 @@ if(user==null)
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
-                Intent intent =new Intent(getApplicationContext(),LoginActivity.class);
-                startActivity(intent);
-                finish();
-
+                MainActivity.ConfirmDeleteDialog confirmDialog = new MainActivity.ConfirmDeleteDialog();
+                confirmDialog.show(getSupportFragmentManager(), "logoutConfirmation");
                 return true;
             case R.id.setting:
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -103,6 +104,28 @@ if(user==null)
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+    public  static class ConfirmDeleteDialog extends DialogFragment {
+
+        @Override
+        public Dialog onCreateDialog(@NonNull Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            builder.setTitle("Are you sure you want to logout ?")
+                    .setMessage("You will have to login again to buy books")
+                    .setPositiveButton("Logout",
+                            (dialog,id) -> {
+                                FirebaseAuth.getInstance().signOut();
+                                Intent intent =new Intent(getContext(),LoginActivity.class);
+                                startActivity(intent);
+                                getActivity().finish();
+
+                            })
+                    .setNegativeButton("Cancel",
+                            (dialog, id) -> {});
+            return builder.create();
         }
     }
 }

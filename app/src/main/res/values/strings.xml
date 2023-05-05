@@ -24,5 +24,9 @@
     <string name="menu_add">add</string>
     <string name="logout">logout</string>
     <string name="setting">setting</string>
+    <string name ="home">Why should you use Book Trade</string>
+    <string name ="home1">Nominal prices options</string>
+    <string name ="home2">User friendly interface</string>
+    <string name ="home3">Talk directly to seller</string>
 
 </resources>

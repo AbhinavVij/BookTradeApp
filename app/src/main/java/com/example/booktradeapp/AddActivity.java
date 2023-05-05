@@ -128,7 +128,7 @@ public class AddActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful())
                         {
-                            Toast.makeText(getApplicationContext(),"userdetail updated",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Book details updated",Toast.LENGTH_SHORT).show();
                         }
 
 

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -50,6 +51,10 @@ public class BuyPage extends AppCompatActivity {
     RecyclerView recycler;
     DatabaseReference databaseReference;
     MyAdapter myadapter;
+    private SharedPref sharedPreferences;
+    private String mSearchString;
+    private static final String SEARCH_KEY = "search";
+    private SearchView searchView;
 
     @Override
     public void onBackPressed() {
@@ -61,10 +66,19 @@ public class BuyPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        sharedPreferences = new SharedPref(this);
+        if (sharedPreferences.loadNightModeState()) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.LightTheme);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.buy_page);
 
+        if(savedInstanceState != null){
+            mSearchString = savedInstanceState.getString(SEARCH_KEY);
+        }
         Toolbar mytoolbar = findViewById(R.id.toolbar2);
         mytoolbar.setTitle("BUY");
         setSupportActionBar(mytoolbar);
@@ -109,8 +123,17 @@ public class BuyPage extends AppCompatActivity {
         MenuItem searchViewItem = menu.findItem(R.id.search_bar);
 
 
-        SearchView searchView = (SearchView) searchViewItem.getActionView();
+         searchView = (SearchView) searchViewItem.getActionView();
         searchView.setQueryHint("Search People");
+        if (mSearchString != null && !mSearchString.isEmpty()) {
+            searchViewItem.expandActionView();
+            searchView.setQuery(mSearchString, true);
+            myadapter.getFilter().filter(mSearchString);
+            searchView.setFocusable(false);
+            searchView.setIconified(false);
+            searchView.clearFocus();
+
+        }
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -124,8 +147,10 @@ public class BuyPage extends AppCompatActivity {
 
             }
 
+
             @Override
             public boolean onQueryTextChange(String newText) {
+                mSearchString=newText;
                 myadapter.getFilter().filter(newText);
                 return false;
             }
@@ -135,19 +160,28 @@ public class BuyPage extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        mSearchString = searchView.getQuery().toString();
+        outState.putString(SEARCH_KEY, mSearchString);
+        super.onSaveInstanceState(outState);
+
+    }
+
     public void displaySetup(Books books) {
 
-            Bundle args = new Bundle();
-            args.putInt("books_id", books.id);
-            args.putString("title", books.title);
-            args.putString("author", books.author);
-            args.putString("condition", books.condition);
-            args.putString("publication", books.publication);
+        Bundle args = new Bundle();
+        args.putInt("books_id", books.id);
+        args.putString("title", books.title);
+        args.putString("author", books.author);
+        args.putString("condition", books.condition);
+        args.putString("publication", books.publication);
+        args.putString("email", books.email);
 
 
-            BuyPage.DisplaySetupDialog setupDialog = new BuyPage.DisplaySetupDialog();
-            setupDialog.setArguments(args);
-            setupDialog.show(getSupportFragmentManager(), "setupDialog");
+        BuyPage.DisplaySetupDialog setupDialog = new BuyPage.DisplaySetupDialog();
+        setupDialog.setArguments(args);
+        setupDialog.show(getSupportFragmentManager(), "setupDialog");
 
     }
 
@@ -217,6 +251,7 @@ public class BuyPage extends AppCompatActivity {
             holder.author.setText(book.getAuthor());
             holder.publication.setText(book.getPublication());
             holder.condition.setText(book.getCondition());
+            holder.email.setText(book.getEmail());
 
         }
 
@@ -233,7 +268,7 @@ public class BuyPage extends AppCompatActivity {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView title, author, publication, condition;
+            TextView title, author, publication, condition, email;
             private Books books;
 
             public MyViewHolder(@NonNull View itemView) {
@@ -243,20 +278,22 @@ public class BuyPage extends AppCompatActivity {
                 author = itemView.findViewById(R.id.textView7);
                 publication = itemView.findViewById(R.id.textView8);
                 condition = itemView.findViewById(R.id.textView9);
+                email = itemView.findViewById(R.id.imageView);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                       TextView a=v.findViewById(R.id.textView7);
-                        TextView t=v.findViewById(R.id.textView6);
-                        TextView p=v.findViewById(R.id.textView8);
-                        TextView c=v.findViewById(R.id.textView9);
+                        TextView a = v.findViewById(R.id.textView7);
+                        TextView t = v.findViewById(R.id.textView6);
+                        TextView p = v.findViewById(R.id.textView8);
+                        TextView c = v.findViewById(R.id.textView9);
+                        TextView e = v.findViewById(R.id.imageView);
 
                         // Todo
-                        displaySetup(new Books(1,t.getText().toString(),a.getText().toString(),
+                        displaySetup(new Books(1, t.getText().toString(), a.getText().toString(),
                                 c.getText().toString()
-                        ,p.getText().toString(),"",""));
+                                , p.getText().toString(), e.getText().toString(), ""));
                     }
                 });
 
@@ -264,24 +301,40 @@ public class BuyPage extends AppCompatActivity {
         }
     }
 
+
+
     public static class DisplaySetupDialog extends DialogFragment {
         int books_id;
+        public void composeEmail(String[] addresses, String subject, String message) {
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setType("message/rfc822");
+            intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+            intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+            intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+            intent.putExtra(Intent.EXTRA_TEXT, message);
+                startActivity(intent);
 
+        }
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
+        public  Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             books_id = getArguments().getInt("books_id");
             final String title = getArguments().getString("title");
             final String author = getArguments().getString("author");
             final String condition = getArguments().getString("condition");
             final String publication = getArguments().getString("publication");
+            final String email=getArguments().getString("email");
 
             builder.setTitle(title)
                     .setMessage("Author of Book:" + author + "\nCondition of Book:" + condition + "\nBook published by :" + publication)
 //                    .setMessage("Condition of Book:" + condition)
 //                    .setMessage("Book published by :"+ publication)
-                    .setPositiveButton("Add to Cart",
+                    .setPositiveButton("Email Seller",
                             (dialog, id) -> {
+                                composeEmail(new String[]{email},"Interested in purchasing book:", "Hello\n"+
+                                        "I am interested in buying following book\n"+
+                                        "Author of Book:" + author + "\nCondition of Book:"
+                                        + condition + "\nBook published by :" + publication);
                             })
                     .setNegativeButton("Cancel",
                             (dialog, id) -> {
